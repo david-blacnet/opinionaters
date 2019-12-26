@@ -1,9 +1,10 @@
 import React from 'react';
-import { render } from '@testing-library/react';
 import App from './App';
+import {shallow} from "enzyme";
+import {FeedOverview} from "./feed-overview/FeedOverview";
 
-test('renders learn react link', () => {
-  const { getByText } = render(<App />);
-  const linkElement = getByText(/learn react/i);
-  expect(linkElement).toBeInTheDocument();
+test('renders FeedOverview', () => {
+  const wrapper = shallow(<App/>);
+
+  expect(wrapper.find(FeedOverview)).toHaveLength(1);
 });

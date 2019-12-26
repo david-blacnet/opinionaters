@@ -16,6 +16,7 @@ export class RssParser {
         sourceUrl: feed.feedUrl,
         title: feed.title,
         items: feed.items.map(item => ({
+          id: item.id,
           title: item.title,
           content: item.content,
           link: item.link,

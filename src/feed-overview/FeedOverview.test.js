@@ -4,7 +4,8 @@ import {FeedOverview} from "./FeedOverview";
 import React from "react";
 import {RssParser} from "../rss-parser/RssParser";
 import {of} from "rxjs";
-import shallow from "enzyme/src/shallow";
+import {FeedItem} from "../feed-item/FeedItem";
+import {shallow} from "enzyme";
 
 jest.mock('../rss-parser/RssParser');
 
@@ -43,12 +44,13 @@ describe('FeedOverview', function () {
       sourceUrl: 'source-url',
       items: [
         {
-          title: 'Item 1'
+          title: 'Item 1',
+          id: 1
         }
       ]
     }));
     const wrapper = shallow(<FeedOverview sourceUrl="test-url"/>);
 
-    expect(wrapper.find(FeedItem)).to.have.lengthOf(1);
+    expect(wrapper.find(FeedItem)).toHaveLength(1);
   });
 });
