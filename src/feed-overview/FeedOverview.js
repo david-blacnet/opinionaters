@@ -1,5 +1,5 @@
 import React from "react";
-import RssParser from "../rss-parser/RssParser";
+import RssParser from "../my-rss-parser/RssParser";
 import FeedItem from "../feed-item/FeedItem";
 
 export default class FeedOverview extends React.Component {

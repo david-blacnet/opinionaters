@@ -2,12 +2,12 @@ import { render, unmountComponentAtNode } from "react-dom";
 import { act } from "react-dom/test-utils";
 import FeedOverview from "./FeedOverview";
 import React from "react";
-import RssParser from "../rss-parser/RssParser";
+import RssParser from "../my-rss-parser/RssParser";
 import { of } from "rxjs";
 import FeedItem from "../feed-item/FeedItem";
 import { shallow } from "enzyme";
 
-jest.mock("../rss-parser/RssParser");
+jest.mock("../my-rss-parser/RssParser");
 
 describe("FeedOverview", function() {
   let container = null;

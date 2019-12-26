@@ -4,7 +4,7 @@ import { of } from "rxjs";
 
 jest.mock("rss-parser");
 
-test("RssParser should pass call to rss-parser", () => {
+test("RssParser should pass call to my-rss-parser", () => {
   const rssParser = new RssParser();
   expect(Parser).toHaveBeenCalled();
   const mockInstance = Parser.mock.instances[0];
