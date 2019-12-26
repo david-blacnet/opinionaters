@@ -1,9 +1,8 @@
-import React from 'react';
-import './App.css';
-import {FeedOverview} from "./feed-overview/FeedOverview";
+import React from "react";
+import "./App.css";
+import FeedOverview from "./feed-overview/FeedOverview";
 
 class App extends React.Component {
-
   constructor(props) {
     super(props);
   }

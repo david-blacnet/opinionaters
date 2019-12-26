@@ -1,9 +1,8 @@
 import Parser from "rss-parser";
-import {from} from 'rxjs';
-import {map} from "rxjs/operators";
+import { from } from "rxjs";
+import { map } from "rxjs/operators";
 
-export class RssParser {
-
+export default class RssParser {
   parser;
 
   constructor() {

@@ -1,9 +1,8 @@
-import React from 'react';
-import {RssParser} from "../rss-parser/RssParser";
-import {FeedItem} from "../feed-item/FeedItem";
+import React from "react";
+import RssParser from "../rss-parser/RssParser";
+import FeedItem from "../feed-item/FeedItem";
 
-export class FeedOverview extends React.Component {
-
+export default class FeedOverview extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -27,11 +26,10 @@ export class FeedOverview extends React.Component {
   render() {
     return (
       <div>
-        <h2 className='title'>{this.state.feed.title}</h2>
-        {
-          this.state.feed.items.map(item =>
-            <FeedItem key={item.id.toString()} item={item}/>)
-        }
+        <h2 className="title">{this.state.feed.title}</h2>
+        {this.state.feed.items.map(item => (
+          <FeedItem key={item.id.toString()} item={item} />
+        ))}
       </div>
     );
   }

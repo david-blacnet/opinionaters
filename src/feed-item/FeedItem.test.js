@@ -1,14 +1,13 @@
-import {render, unmountComponentAtNode} from "react-dom";
-import {act} from "react-dom/test-utils";
+import { render, unmountComponentAtNode } from "react-dom";
+import { act } from "react-dom/test-utils";
 import React from "react";
-import {FeedItem} from "./FeedItem";
+import FeedItem from "./FeedItem";
 
-describe('FeedItem', () => {
-
+describe("FeedItem", () => {
   let container = null;
 
   beforeEach(() => {
-    container = document.createElement('div');
+    container = document.createElement("div");
     document.body.appendChild(container);
   });
 
@@ -18,18 +17,21 @@ describe('FeedItem', () => {
     container = null;
   });
 
-  test('should render using given props', async () => {
+  test("should render using given props", async () => {
     const item = {
-      title: 'Title',
-      content: '<p>test</p>',
-      link: 'https://test.com/'
-    }
+      title: "Title",
+      content: "<p>test</p>",
+      link: "https://test.com/"
+    };
     await act(async () => {
-      render(<FeedItem item={item}/>, container);
+      render(<FeedItem item={item} />, container);
     });
-    expect(container.querySelector('.title').textContent).toEqual('Title');
-    expect(container.querySelector('.content').innerHTML).toEqual('<p>test</p>');
-    expect(container.querySelector('.link').textContent).toEqual('https://test.com/');
+    expect(container.querySelector(".title").textContent).toEqual("Title");
+    expect(container.querySelector(".content").innerHTML).toEqual(
+      "<p>test</p>"
+    );
+    expect(container.querySelector(".link").textContent).toEqual(
+      "https://test.com/"
+    );
   });
-
 });
