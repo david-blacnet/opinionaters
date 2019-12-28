@@ -1,36 +1,32 @@
-import React from "react";
+import React, { useEffect, useRef, useState } from "react";
 import RssParser from "../my-rss-parser/RssParser";
 import FeedItem from "../feed-item/FeedItem";
 
-export default class FeedOverview extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      sourceUrl: props.sourceUrl,
-      feed: {
-        title: null,
-        items: []
-      }
-    };
-    this._parser = new RssParser();
-  }
+export default function FeedOverview(props) {
+  const [feed, setFeed] = useState({
+    title: null,
+    items: []
+  });
+  const sourceUrl = props.sourceUrl;
+  const _parser = new RssParser();
+  const feedSubscription = useRef(null);
 
-  componentDidMount() {
-    this._parser.parse(this.state.sourceUrl).subscribe(feed => {
-      this.setState({
-        feed: feed
-      });
+  useEffect(() => {
+    feedSubscription.current = _parser.parse(sourceUrl).subscribe(item => {
+      setFeed(item);
     });
-  }
 
-  render() {
-    return (
-      <div>
-        <h2 className="title">{this.state.feed.title}</h2>
-        {this.state.feed.items.map(item => (
-          <FeedItem key={item.id.toString()} item={item} />
-        ))}
-      </div>
-    );
-  }
+    return () => {
+      feedSubscription.current.unsubscribe();
+    };
+  });
+
+  return (
+    <div>
+      <h2 className="title">{feed.title}</h2>
+      {feed.items.map(item => (
+        <FeedItem key={item.id.toString()} item={item} />
+      ))}
+    </div>
+  );
 }
