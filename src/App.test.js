@@ -2,6 +2,19 @@ import React from "react";
 import App from "./App";
 import { act } from "@testing-library/react";
 import { render, unmountComponentAtNode } from "react-dom";
+import mediaQuery from "css-mediaquery";
+
+function createMatchMedia(width) {
+  return query => ({
+    matches: mediaQuery.match(query, { width }),
+    addListener: () => {},
+    removeListener: () => {}
+  });
+}
+
+beforeAll(() => {
+  window.matchMedia = createMatchMedia(window.innerWidth);
+});
 
 let container = null;
 beforeEach(() => {

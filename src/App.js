@@ -103,9 +103,8 @@ export default function App(props) {
   const navigationDrawer = () => {
     return (
       <nav className={classes.drawer} aria-label="mailbox folders">
-        {/*<Hidden smUp>{mobileDrawer()}</Hidden>*/}
-        {/*<Hidden xsDown>{desktopDrawer()}</Hidden>*/}
-        {desktopDrawer()}
+        <Hidden smUp>{mobileDrawer()}</Hidden>
+        <Hidden xsDown>{desktopDrawer()}</Hidden>
       </nav>
     );
   };
