@@ -26,12 +26,7 @@ describe("FeedItem", () => {
     await act(async () => {
       render(<FeedItem item={item} />, container);
     });
-    expect(container.querySelector(".title").textContent).toEqual("Title");
-    expect(container.querySelector(".content").innerHTML).toEqual(
-      "<p>test</p>"
-    );
-    expect(container.querySelector(".link").textContent).toEqual(
-      "https://test.com/"
-    );
+    expect(container.querySelector("h6").textContent).toEqual("Title");
+    expect(container.querySelector("span").innerHTML).toEqual("<p>test</p>");
   });
 });
