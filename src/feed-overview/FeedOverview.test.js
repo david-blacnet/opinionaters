@@ -5,7 +5,7 @@ import React from "react";
 import RssParser from "../my-rss-parser/RssParser";
 import { of } from "rxjs";
 import FeedItem from "../feed-item/FeedItem";
-import { shallow } from "enzyme";
+import { mount } from "enzyme";
 
 jest.mock("../my-rss-parser/RssParser");
 
@@ -29,7 +29,8 @@ describe("FeedOverview", function() {
     jest.spyOn(RssParser.prototype, "parse").mockImplementation(() =>
       of({
         title: "Title",
-        sourceUrl: "source-url"
+        sourceUrl: "source-url",
+        items: []
       })
     );
     await act(async () => {
@@ -37,7 +38,7 @@ describe("FeedOverview", function() {
     });
     expect(RssParser).toHaveBeenCalled();
 
-    expect(container.querySelector(".title").textContent).toEqual("Title");
+    expect(container.querySelector("h3").textContent).toEqual("Title");
   });
 
   it("should have exactly the same feed item children as its state", () => {
@@ -53,7 +54,7 @@ describe("FeedOverview", function() {
         ]
       })
     );
-    const wrapper = shallow(<FeedOverview sourceUrl="test-url" />);
+    const wrapper = mount(<FeedOverview sourceUrl="test-url" />);
 
     expect(wrapper.find(FeedItem)).toHaveLength(1);
   });

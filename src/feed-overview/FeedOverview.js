@@ -1,6 +1,8 @@
 import React, { useEffect, useRef, useState } from "react";
 import RssParser from "../my-rss-parser/RssParser";
 import FeedItem from "../feed-item/FeedItem";
+import { makeStyles } from "@material-ui/core";
+import Typography from "@material-ui/core/Typography";
 
 export default function FeedOverview(props) {
   const [feed, setFeed] = useState({
@@ -12,18 +14,20 @@ export default function FeedOverview(props) {
   const feedSubscription = useRef(null);
 
   useEffect(() => {
-    feedSubscription.current = _parser.parse(sourceUrl).subscribe(item => {
-      setFeed(item);
+    feedSubscription.current = _parser.parse(sourceUrl).subscribe(newFeed => {
+      setFeed(newFeed);
     });
 
     return () => {
       feedSubscription.current.unsubscribe();
     };
-  });
+  }, []);
 
   return (
     <div>
-      <h2 className="title">{feed.title}</h2>
+      <Typography variant="h3" gutterBottom>
+        {feed.title}
+      </Typography>
       {feed.items.map(item => (
         <FeedItem key={item.id.toString()} item={item} />
       ))}
