@@ -77,7 +77,7 @@ export default function App(props) {
 
   const appBar = () => {
     return (
-      <AppBar position="fixed" className={classes.appBar}>
+      <AppBar position="fixed" className={classes.appBar} id="app-bar">
         <Toolbar>
           <IconButton
             color="inherit"
@@ -89,7 +89,7 @@ export default function App(props) {
             <MenuIcon />
           </IconButton>
           <Typography variant="h6" noWrap>
-            Responsive drawer
+            Opinionaters
           </Typography>
         </Toolbar>
       </AppBar>
@@ -103,8 +103,9 @@ export default function App(props) {
   const navigationDrawer = () => {
     return (
       <nav className={classes.drawer} aria-label="mailbox folders">
-        <Hidden smUp>{mobileDrawer()}</Hidden>
-        <Hidden xsDown>{desktopDrawer()}</Hidden>
+        {/*<Hidden smUp>{mobileDrawer()}</Hidden>*/}
+        {/*<Hidden xsDown>{desktopDrawer()}</Hidden>*/}
+        {desktopDrawer()}
       </nav>
     );
   };
@@ -150,7 +151,12 @@ export default function App(props) {
         <Divider />
         <List>
           {links.map(item => (
-            <ListItemLink key={item.key} to={item.route} primary={item.label} />
+            <ListItemLink
+              id={`link-${item.key}`}
+              key={item.key}
+              to={item.route}
+              primary={item.label}
+            />
           ))}
         </List>
       </div>

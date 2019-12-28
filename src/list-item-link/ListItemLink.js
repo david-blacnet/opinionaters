@@ -6,7 +6,7 @@ import ListItemText from "@material-ui/core/ListItemText";
 import * as PropTypes from "prop-types";
 
 export default function ListItemLink(props) {
-  const { icon, primary, to } = props;
+  const { icon, primary, to, id } = props;
 
   const renderLink = React.useMemo(
     () =>
@@ -17,7 +17,7 @@ export default function ListItemLink(props) {
   );
 
   return (
-    <li>
+    <li id={id}>
       <ListItem button component={renderLink}>
         {icon ? <ListItemIcon>{icon}</ListItemIcon> : null}
         <ListItemText primary={primary} />
@@ -29,5 +29,6 @@ export default function ListItemLink(props) {
 ListItemLink.propTypes = {
   icon: PropTypes.element,
   primary: PropTypes.string.isRequired,
-  to: PropTypes.string.isRequired
+  to: PropTypes.string.isRequired,
+  id: PropTypes.string
 };
