@@ -1,0 +1,19 @@
+# frozen_string_literal: true
+
+ruby '2.6.3'
+
+source "https://rubygems.org"
+
+git_source(:github) {|repo_name| "https://github.com/#{repo_name}" }
+
+gem 'rack'
+gem 'sinatra', '~>2.0.8.1'
+gem 'sinatra-contrib', '~>2.0.8.1'
+gem 'thin', '~>1.7.2'
+
+group :test do
+  gem 'rack-test'
+  gem 'rspec'
+  gem 'rspec-mocks'
+  gem 'spec'
+end
