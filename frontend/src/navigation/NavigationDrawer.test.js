@@ -3,9 +3,34 @@ import { shallow } from "enzyme";
 import NavigationDrawer from "./NavigationDrawer";
 import NavigationItem from "./NavigationItem";
 
-jest.mock("./");
+jest.mock("../opinionaters/OpinionatersDomain", () => {
+  return jest.fn().mockImplementation(() => {
+    return {
+      getPeopleList: () => [
+        {
+          id: "test_1",
+          fullName: "Test 1",
+          twitterHandle: "test1",
+          rssFeedUrl: "test1.com"
+        },
+        {
+          id: "test_2",
+          fullName: "Test 2",
+          twitterHandle: "test2",
+          rssFeedUrl: "test2.com"
+        },
+        {
+          id: "test_3",
+          fullName: "Test 3",
+          twitterHandle: "test3",
+          rssFeedUrl: "test3.com"
+        }
+      ]
+    };
+  });
+});
 
-let container = null;
+let container;
 
 beforeEach(() => {
   container = shallow(<NavigationDrawer />);
@@ -13,10 +38,10 @@ beforeEach(() => {
 
 afterEach(() => {
   container = null;
-  jest.resetAllMocks();
 });
 
 test("Navigation Drawer should contain links directing to content", () => {
   const navigationItemsRendered = container.find(NavigationItem);
-  expect(navigationItemsRendered.length).toEqual(3);
+  // NavigationItems will be printed twice because they will populate both mobile and web drawer.
+  expect(navigationItemsRendered.length).toEqual(6);
 });

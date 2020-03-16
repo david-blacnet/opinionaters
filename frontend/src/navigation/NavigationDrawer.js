@@ -43,7 +43,7 @@ export default function NavigationDrawer(props) {
           keepMounted: true
         }}
       >
-        {drawerItems()}
+        {drawerItems}
       </Drawer>
     );
   };
@@ -57,33 +57,33 @@ export default function NavigationDrawer(props) {
         variant="permanent"
         open
       >
-        {drawerItems()}
+        {drawerItems}
       </Drawer>
     );
   };
 
-  const drawerItems = () => {
-    return (
-      <div>
-        <div className={classes.toolbar} />
-        <Divider />
-        <List>
-          {items().map(item => (
-            <NavigationItem
-              id={`link-${item.key}`}
-              key={item.key}
-              to={item.route}
-              primary={item.label}
-            />
-          ))}
-        </List>
-      </div>
-    );
-  };
+  const items = opinionatersDomain.getPeopleList().map(people => ({
+    key: people.id,
+    to: `/${people.id}`,
+    primary: people.fullName
+  }));
 
-  const items = () => {
-    return opinionatersDomain.getPeopleList();
-  };
+  const drawerItems = (
+    <div>
+      <div className={classes.toolbar} />
+      <Divider />
+      <List>
+        {items.map(item => (
+          <NavigationItem
+            id={`link-${item.key}`}
+            key={item.key}
+            to={item.route}
+            primary={item.label}
+          />
+        ))}
+      </List>
+    </div>
+  );
 
   return navigationDrawer();
 }
