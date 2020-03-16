@@ -55,6 +55,9 @@ typings/
 # Optional npm cache directory
 .npm
 
+# npm package-lock
+package-lock.json
+
 # Optional eslint cache
 .eslintcache
 
@@ -153,7 +156,7 @@ sketch
 # since they will be recreated, and may cause churn.  Uncomment if using
 # auto-import.
 # .idea/modules.xml
-# .idea/*.iml
+ .idea/*.iml
 # .idea/modules
 # *.iml
 # *.ipr
@@ -208,5 +211,8 @@ fabric.properties
 # Markdown Navigator plugin
 .idea/**/markdown-navigator.xml
 .idea/**/markdown-navigator/
+
+# Types Mapping
+.idea/jsLibraryMappings.xml
 
 # End of https://www.gitignore.io/api/node,react,webstorm
