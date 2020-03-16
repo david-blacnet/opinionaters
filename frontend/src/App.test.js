@@ -1,44 +1,23 @@
 import React from "react";
+import { Switch } from "react-router-dom";
 import App from "./App";
-import { act } from "@testing-library/react";
-import { render, unmountComponentAtNode } from "react-dom";
-import mediaQuery from "css-mediaquery";
-
-function createMatchMedia(width) {
-  return query => ({
-    matches: mediaQuery.match(query, { width }),
-    addListener: () => {},
-    removeListener: () => {}
-  });
-}
-
-beforeAll(() => {
-  window.matchMedia = createMatchMedia(window.innerWidth);
-});
+import NavigationDrawer from "./navigation/NavigationDrawer";
+import Content from "./Content";
+import { shallow } from "enzyme";
 
 let container = null;
 beforeEach(() => {
-  container = document.createElement("div");
-  document.body.appendChild(container);
-  act(() => {
-    render(<App />, container);
-  });
+  container = shallow(<App />);
 });
 
 afterEach(() => {
-  unmountComponentAtNode(container);
-  container.remove();
   container = null;
 });
 
-it("renders App with 'Opinionaters' on its app bar", () => {
-  expect(container.querySelector("#app-bar").textContent).toEqual(
-    "Opinionaters"
-  );
-});
+test("App should contain the needed components", () => {
+  const containerChildren = container.find("div#opinionaters").children();
+  expect(containerChildren.contains(<NavigationDrawer />)).toBeTruthy();
 
-it("renders App with several links attached", () => {
-  expect(
-    container.querySelectorAll("li[id^='link']").length
-  ).toBeGreaterThanOrEqual(1);
+  const switchChildren = container.find(Switch).children();
+  expect(switchChildren.contains(<Content />)).toBeTruthy();
 });
