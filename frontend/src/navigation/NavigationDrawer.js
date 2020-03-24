@@ -64,23 +64,32 @@ export default function NavigationDrawer(props) {
 
   const items = peopleService.getPeopleList().map(people => ({
     key: people.id,
-    to: `/${people.id}`,
-    primary: people.fullName
+    navigationItem: {
+      id: people.id,
+      to: `/${people.id}`,
+      label: people.fullName
+    }
   }));
+
+  const refs = [];
 
   const drawerItems = (
     <div>
       <div className={classes.toolbar} />
       <Divider />
       <List>
-        {items.map(item => (
-          <NavigationItem
-            id={`link-${item.key}`}
-            key={item.key}
-            to={item.route}
-            primary={item.label}
-          />
-        ))}
+        {items.map(item => {
+          const ref = React.createRef();
+          refs.push(ref);
+
+          return (
+            <NavigationItem
+              key={item.key}
+              ref={ref}
+              item={item.navigationItem}
+            />
+          );
+        })}
       </List>
     </div>
   );
