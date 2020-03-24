@@ -5,7 +5,7 @@ import Drawer from "@material-ui/core/Drawer";
 import Divider from "@material-ui/core/Divider";
 import List from "@material-ui/core/List";
 import NavigationItem from "./NavigationItem";
-import OpinionatersDomain from "../opinionaters/OpinionatersDomain";
+import PeopleService from "../people/PeopleService";
 
 export default function NavigationDrawer(props) {
   const { container } = props;
@@ -13,7 +13,7 @@ export default function NavigationDrawer(props) {
   const theme = useTheme();
   const [mobileOpen, setMobileOpen] = React.useState(false);
 
-  const opinionatersDomain = new OpinionatersDomain();
+  const peopleService = PeopleService();
 
   const handleDrawerToggle = () => {
     setMobileOpen(!mobileOpen);
@@ -62,7 +62,7 @@ export default function NavigationDrawer(props) {
     );
   };
 
-  const items = opinionatersDomain.getPeopleList().map(people => ({
+  const items = peopleService.getPeopleList().map(people => ({
     key: people.id,
     to: `/${people.id}`,
     primary: people.fullName

@@ -1,7 +1,7 @@
 import People from "./People";
 
-export default class OpinionatersDomain {
-  peopleOfInterestList = [
+export default function PeopleService() {
+  const peopleOfInterestList = [
     new People(
       "uncle_bob",
       "Robert C. Martin",
@@ -44,10 +44,19 @@ export default class OpinionatersDomain {
       "@baeldung",
       "https://www.baeldung.com/feed",
       "https://www.baeldung.com/"
+    ),
+    new People(
+      "rands",
+      "Michael Lopp",
+      "@rands",
+      "https://randsinrepose.com/feed/",
+      "https://randsinrepose.com/"
     )
   ];
 
-  getPeopleList() {
-    return this.peopleOfInterestList;
-  }
+  return {
+    getPeopleList: () => {
+      return peopleOfInterestList;
+    }
+  };
 }

@@ -3,7 +3,7 @@ import { shallow } from "enzyme";
 import NavigationDrawer from "./NavigationDrawer";
 import NavigationItem from "./NavigationItem";
 
-jest.mock("../opinionaters/OpinionatersDomain", () => {
+jest.mock("../people/PeopleService", () => {
   return jest.fn().mockImplementation(() => {
     return {
       getPeopleList: () => [
