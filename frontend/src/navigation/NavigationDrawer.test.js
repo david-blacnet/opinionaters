@@ -42,6 +42,5 @@ afterEach(() => {
 
 test("Navigation Drawer should contain links directing to content", () => {
   const navigationItemsRendered = container.find(NavigationItem);
-  // NavigationItems will be printed twice because they will populate both mobile and web drawer.
-  expect(navigationItemsRendered.length).toEqual(6);
+  expect(navigationItemsRendered.length).toEqual(3);
 });

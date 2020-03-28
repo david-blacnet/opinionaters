@@ -16,11 +16,11 @@ test("Navigation Item should contain these elements", () => {
     </BrowserRouter>
   );
   const navigationItem = container.find(NavigationItem);
+  const link = navigationItem.find(Link);
+  const linkProps = link.props();
 
   expect(navigationItem.contains(Link)).toBeTruthy();
   expect(navigationItem.find("li").props().id).toContain("id");
-  const link = navigationItem.find(Link);
-  const linkProps = link.props();
   expect(linkProps.to).toEqual("/test");
   expect(link.html()).toContain("label");
 });

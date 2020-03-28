@@ -1,11 +1,22 @@
 import React from "react";
 import NavigationDrawer from "./navigation/NavigationDrawer";
 import { Route, Switch } from "react-router-dom";
-import Content from "./Content";
+import Content from "./content/Content";
+import { makeStyles } from "@material-ui/core/styles";
+import { CssBaseline } from "@material-ui/core";
 
-export default function App(props) {
+const useStyles = makeStyles(() => ({
+  root: {
+    display: "flex"
+  }
+}));
+
+export default function App() {
+  const classes = useStyles();
+
   return (
-    <div id="opinionaters">
+    <div id="opinionaters" className={classes.root}>
+      <CssBaseline />
       <NavigationDrawer />
       <Switch>
         <Route path="/:key">

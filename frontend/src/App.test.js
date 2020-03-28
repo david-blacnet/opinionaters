@@ -2,7 +2,7 @@ import React from "react";
 import { Switch } from "react-router-dom";
 import App from "./App";
 import NavigationDrawer from "./navigation/NavigationDrawer";
-import Content from "./Content";
+import Content from "./content/Content";
 import { shallow } from "enzyme";
 
 let container = null;
