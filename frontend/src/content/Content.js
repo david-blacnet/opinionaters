@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useRef } from "react";
 import PropTypes from "prop-types";
 import { makeStyles } from "@material-ui/core/styles";
 import AppBar from "@material-ui/core/AppBar";
@@ -8,6 +8,7 @@ import Typography from "@material-ui/core/Typography";
 import Box from "@material-ui/core/Box";
 import { useParams } from "react-router";
 import Toolbar from "@material-ui/core/Toolbar";
+import PeopleService from "../people/PeopleService";
 
 function a11yProps(index) {
   return {
@@ -48,18 +49,28 @@ const useTabItemStyles = makeStyles(() => ({
 }));
 
 export default function Content(props) {
+  const [activeTabIndex, setActiveTabIndex] = React.useState(0);
   const hookClasses = useStyles();
   const tabItemStyles = useTabItemStyles();
-  const { key } = useParams();
+  const { id } = useParams();
+  const ref = useRef(null);
   const classes = props.classes ? props.classes : hookClasses;
-  const [activeTabIndex, setActiveTabIndex] = React.useState(0);
+
+  const twitterTimelineHolder = "twitter-timeline";
+
+  const peopleService = PeopleService();
+
+  useEffect(() => {
+    const width = ref.current ? ref.current.offsetWidth : 0;
+    peopleService.getPeople(id).renderTweets(twitterTimelineHolder, width);
+  });
 
   const handleChangeTab = (event, newActiveTabIndex) => {
     setActiveTabIndex(newActiveTabIndex);
   };
 
   return (
-    <div>
+    <div className={classes.content} ref={ref}>
       <AppBar position="fixed" className={classes.appBar}>
         <Toolbar>
           <Tabs
@@ -67,7 +78,11 @@ export default function Content(props) {
             onChange={handleChangeTab}
             className={classes.toolBar}
           >
-            <Tab classes={tabItemStyles} label="Item One" {...a11yProps(0)} />
+            <Tab
+              classes={tabItemStyles}
+              label="Twitter Timeline"
+              {...a11yProps(0)}
+            />
             <Tab classes={tabItemStyles} label="Item Two" {...a11yProps(1)} />
             <Tab classes={tabItemStyles} label="Item Three" {...a11yProps(2)} />
           </Tabs>
@@ -76,13 +91,13 @@ export default function Content(props) {
       <main className={classes.content}>
         <div className={classes.toolBar} />
         <TabPanel value={activeTabIndex} index={0}>
-          Item One {key}
+          <span className={twitterTimelineHolder} />
         </TabPanel>
         <TabPanel value={activeTabIndex} index={1}>
-          Item Two {key}
+          Item Two {id}
         </TabPanel>
         <TabPanel value={activeTabIndex} index={2}>
-          Item Three {key}
+          Item Three {id}
         </TabPanel>
       </main>
     </div>

@@ -19,7 +19,7 @@ export default function App() {
       <CssBaseline />
       <NavigationDrawer />
       <Switch>
-        <Route path="/:key">
+        <Route path="/:id">
           <Content />
         </Route>
       </Switch>

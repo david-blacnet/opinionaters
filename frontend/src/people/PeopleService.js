@@ -2,50 +2,44 @@ import People from "./People";
 
 export default function PeopleService() {
   const peopleOfInterestList = [
-    new People(
+    People(
       "uncle_bob",
       "Robert C. Martin",
       "@unclebobmartin",
       "https://blog.cleancoder.com/atom.xml",
       "http://cleancoder.com/products"
     ),
-    new People(
+    People(
       "fowler",
       "Martin Fowler",
       "@martinfowler",
       "https://www.martinfowler.com/feed.atom",
       "https://www.martinfowler.com/"
     ),
-    new People(
-      "beck",
-      "Kent Beck",
-      "@kentbeck",
-      null,
-      "https://www.kentbeck.com/"
-    ),
-    new People(
+    People("beck", "Kent Beck", "@kentbeck", null, "https://www.kentbeck.com/"),
+    People(
       "prag_andy",
       "Andy Hunt",
       "@PragmaticAndy",
       null,
       "https://toolshed.com/index.html"
     ),
-    new People(
+    People(
       "prag_dave",
       "Dave Thomas",
       "@pragdave",
       null,
       "https://pragdave.me"
     ),
-    new People("alistair", "Alistair Cockburn", "@TotherAlistair"),
-    new People(
+    People("alistair", "Alistair Cockburn", "@TotherAlistair"),
+    People(
       "baeldung",
       "Eugen Baeldung",
       "@baeldung",
       "https://www.baeldung.com/feed",
       "https://www.baeldung.com/"
     ),
-    new People(
+    People(
       "rands",
       "Michael Lopp",
       "@rands",
@@ -57,6 +51,7 @@ export default function PeopleService() {
   return {
     getPeopleList: () => {
       return peopleOfInterestList;
-    }
+    },
+    getPeople: id => peopleOfInterestList.find(people => people.id === id)
   };
 }
