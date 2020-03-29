@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from "react";
+import React, { useRef } from "react";
 import PropTypes from "prop-types";
 import { makeStyles } from "@material-ui/core/styles";
 import AppBar from "@material-ui/core/AppBar";
@@ -6,7 +6,7 @@ import Tabs from "@material-ui/core/Tabs";
 import Tab from "@material-ui/core/Tab";
 import Typography from "@material-ui/core/Typography";
 import Box from "@material-ui/core/Box";
-import { useParams } from "react-router";
+import { useParams } from "react-router-dom";
 import Toolbar from "@material-ui/core/Toolbar";
 import PeopleService from "../people/PeopleService";
 
@@ -60,7 +60,7 @@ export default function Content(props) {
 
   const peopleService = PeopleService();
 
-  useEffect(() => {
+  React.useEffect(() => {
     const width = ref.current ? ref.current.offsetWidth : 0;
     peopleService.getPeople(id).renderTweets(twitterTimelineHolder, width);
   });

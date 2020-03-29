@@ -49,9 +49,7 @@ export default function PeopleService() {
   ];
 
   return {
-    getPeopleList: () => {
-      return peopleOfInterestList;
-    },
+    getPeopleList: () => peopleOfInterestList,
     getPeople: id => peopleOfInterestList.find(people => people.id === id)
   };
 }
