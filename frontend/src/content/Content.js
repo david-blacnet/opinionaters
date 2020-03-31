@@ -53,9 +53,9 @@ export default function Content(props) {
   const classes = props.classes ? props.classes : styles;
   const tabItemStyles = useTabItemStyles();
 
-  const [activeTabIndex, setActiveTabIndex] = React.useState(0);
-  const handleChangeTab = (event, newActiveTabIndex) => {
-    setActiveTabIndex(newActiveTabIndex);
+  const [activeTab, setActiveTab] = React.useState(0);
+  const handleChangeTab = (event, newActiveTab) => {
+    setActiveTab(newActiveTab);
   };
 
   const twitterTimeline = "twitter-timeline";
@@ -84,7 +84,7 @@ export default function Content(props) {
       <AppBar position="fixed" className={classes.appBar}>
         <Toolbar>
           <Tabs
-            value={activeTabIndex}
+            value={activeTab}
             onChange={handleChangeTab}
             className={classes.toolBar}
           >
@@ -98,16 +98,16 @@ export default function Content(props) {
       <main className={classes.content}>
         <div className={classes.toolBar} />
         {people.twitterHandle !== null && (
-          <TabPanel value={activeTabIndex} index={0} data-content="twitter">
+          <TabPanel value={activeTab} index={0} data-content="twitter">
             <span className={twitterTimeline} />
           </TabPanel>
         )}
         {people.rssFeedUrl !== null && (
-          <TabPanel value={activeTabIndex} index={1} data-content="rss">
+          <TabPanel value={activeTab} index={1} data-content="rss">
             Item Two {id}
           </TabPanel>
         )}
-        <TabPanel value={activeTabIndex} index={2} data-content="bio">
+        <TabPanel value={activeTab} index={2} data-content="bio">
           Item Three {id}
         </TabPanel>
       </main>
