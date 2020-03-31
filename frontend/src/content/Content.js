@@ -59,10 +59,11 @@ export default function Content(props) {
   const twitterTimelineHolder = "twitter-timeline";
 
   const peopleService = PeopleService();
+  const people = peopleService.getPeople(id);
 
   React.useEffect(() => {
     const width = ref.current ? ref.current.offsetWidth : 0;
-    peopleService.getPeople(id).renderTweets(twitterTimelineHolder, width);
+    people.renderTweets(twitterTimelineHolder, width);
   });
 
   const handleChangeTab = (event, newActiveTabIndex) => {
@@ -78,25 +79,44 @@ export default function Content(props) {
             onChange={handleChangeTab}
             className={classes.toolBar}
           >
+            {people.twitterHandle !== null && (
+              <Tab
+                classes={tabItemStyles}
+                label="Twitter Timeline"
+                data-tab="twitter"
+                {...a11yProps(0)}
+              />
+            )}
+            {people.rssFeedUrl !== null && (
+              <Tab
+                classes={tabItemStyles}
+                label="RSS Feed"
+                data-tab="rss"
+                {...a11yProps(1)}
+              />
+            )}
             <Tab
               classes={tabItemStyles}
-              label="Twitter Timeline"
-              {...a11yProps(0)}
+              label="Short Bio"
+              data-tab="bio"
+              {...a11yProps(2)}
             />
-            <Tab classes={tabItemStyles} label="Item Two" {...a11yProps(1)} />
-            <Tab classes={tabItemStyles} label="Item Three" {...a11yProps(2)} />
           </Tabs>
         </Toolbar>
       </AppBar>
       <main className={classes.content}>
         <div className={classes.toolBar} />
-        <TabPanel value={activeTabIndex} index={0}>
-          <span className={twitterTimelineHolder} />
-        </TabPanel>
-        <TabPanel value={activeTabIndex} index={1}>
-          Item Two {id}
-        </TabPanel>
-        <TabPanel value={activeTabIndex} index={2}>
+        {people.twitterHandle !== null && (
+          <TabPanel value={activeTabIndex} index={0} data-content="twitter">
+            <span className={twitterTimelineHolder} />
+          </TabPanel>
+        )}
+        {people.rssFeedUrl !== null && (
+          <TabPanel value={activeTabIndex} index={1} data-content="rss">
+            Item Two {id}
+          </TabPanel>
+        )}
+        <TabPanel value={activeTabIndex} index={2} data-content="bio">
           Item Three {id}
         </TabPanel>
       </main>
@@ -108,7 +128,7 @@ Content.propTypes = {
   classes: PropTypes.any
 };
 
-function TabPanel(props) {
+export function TabPanel(props) {
   const { children, value, index, ...other } = props;
 
   return (
