@@ -50,25 +50,23 @@ const useTabItemStyles = makeStyles(() => ({
 
 export default function Content(props) {
   const [activeTabIndex, setActiveTabIndex] = React.useState(0);
-  const hookClasses = useStyles();
+  const styles = useStyles();
   const tabItemStyles = useTabItemStyles();
   const { id } = useParams();
   const ref = useRef(null);
-  const classes = props.classes ? props.classes : hookClasses;
-
-  const twitterTimelineHolder = "twitter-timeline";
-
-  const peopleService = PeopleService();
-  const people = peopleService.getPeople(id);
-
   React.useEffect(() => {
     const width = ref.current ? ref.current.offsetWidth : 0;
-    people.renderTweets(twitterTimelineHolder, width);
+    people.renderTweets(twitterTimeline, width);
   });
 
+  const classes = props.classes ? props.classes : styles;
+  const twitterTimeline = "twitter-timeline";
+  const peopleService = PeopleService();
   const handleChangeTab = (event, newActiveTabIndex) => {
     setActiveTabIndex(newActiveTabIndex);
   };
+
+  const people = peopleService.getPeople(id);
 
   return (
     <div className={classes.content} ref={ref}>
@@ -108,7 +106,7 @@ export default function Content(props) {
         <div className={classes.toolBar} />
         {people.twitterHandle !== null && (
           <TabPanel value={activeTabIndex} index={0} data-content="twitter">
-            <span className={twitterTimelineHolder} />
+            <span className={twitterTimeline} />
           </TabPanel>
         )}
         {people.rssFeedUrl !== null && (

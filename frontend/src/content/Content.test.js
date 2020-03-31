@@ -14,6 +14,7 @@ jest.mock("react-router-dom", () => ({
 
 const mockGetPeople = jest.fn();
 const mockRenderTweets = jest.fn();
+let mockPeople;
 jest.mock("../people/PeopleService", () => {
   return jest.fn().mockImplementation(() => {
     return {
@@ -22,8 +23,13 @@ jest.mock("../people/PeopleService", () => {
   });
 });
 
+const twitterTab = '[data-tab="twitter"]';
+const twitterContent = '[data-content="twitter"]';
+const rssTab = '[data-tab="rss"]';
+const rssContent = '[data-content="rss"]';
+
 test("Content should call the People domain to get the latest twitter updates ", () => {
-  const mockPeople = id => ({
+  mockPeople = id => ({
     id,
     twitterHandle: "@test",
     renderTweets: mockRenderTweets
@@ -37,37 +43,33 @@ test("Content should call the People domain to get the latest twitter updates ",
 });
 
 test("Content should only render RSS Feed and Short Bio if the people does not have twitter handle", () => {
-  const mockPeople = id => ({
+  mockPeople = id => ({
     id,
     twitterHandle: null,
     rssFeedUrl: "https://www.test.com/feed",
     renderTweets: mockRenderTweets
   });
 
-  mockGetPeople.mockImplementationOnce(mockPeople);
-  const container = shallow(<Content />);
-  expect(container.find(Tab).length).toEqual(2);
-  expect(container.find(TabPanel).length).toEqual(2);
-  expect(container.exists('[data-tab="twitter"]')).toBeFalsy();
-  expect(container.exists('[data-content="twitter"]')).toBeFalsy();
-  expect(container.exists('[data-tab="rss"]')).toBeTruthy();
-  expect(container.exists('[data-content="rss"]')).toBeTruthy();
+  testContent(twitterTab, twitterContent, rssTab, rssContent);
 });
 
 test("Content should only render Twitter Timeline and Short Bio if the people does not have rss feed url", () => {
-  const mockPeople = id => ({
+  mockPeople = id => ({
     id,
     twitterHandle: "@test",
     rssFeedUrl: null,
     renderTweets: mockRenderTweets
   });
+  testContent(rssTab, rssContent, twitterTab, twitterContent);
+});
 
+function testContent(tabA, contentA, tabB, contentB) {
   mockGetPeople.mockImplementationOnce(mockPeople);
   const container = shallow(<Content />);
   expect(container.find(Tab).length).toEqual(2);
   expect(container.find(TabPanel).length).toEqual(2);
-  expect(container.exists('[data-tab="rss"]')).toBeFalsy();
-  expect(container.exists('[data-content="rss"]')).toBeFalsy();
-  expect(container.exists('[data-tab="twitter"]')).toBeTruthy();
-  expect(container.exists('[data-content="twitter"]')).toBeTruthy();
-});
+  expect(container.exists(tabA)).toBeFalsy();
+  expect(container.exists(contentA)).toBeFalsy();
+  expect(container.exists(tabB)).toBeTruthy();
+  expect(container.exists(contentB)).toBeTruthy();
+}
