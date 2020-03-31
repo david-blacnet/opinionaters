@@ -68,6 +68,17 @@ export default function Content(props) {
     people.renderTweets(twitterTimeline, width);
   });
 
+  const tab = (label, dataTab, index) => {
+    return (
+      <Tab
+        classes={tabItemStyles}
+        label={label}
+        data-tab={dataTab}
+        {...a11yProps(index)}
+      />
+    );
+  };
+
   return (
     <div className={classes.content} ref={ref}>
       <AppBar position="fixed" className={classes.appBar}>
@@ -77,28 +88,10 @@ export default function Content(props) {
             onChange={handleChangeTab}
             className={classes.toolBar}
           >
-            {people.twitterHandle !== null && (
-              <Tab
-                classes={tabItemStyles}
-                label="Twitter Timeline"
-                data-tab="twitter"
-                {...a11yProps(0)}
-              />
-            )}
-            {people.rssFeedUrl !== null && (
-              <Tab
-                classes={tabItemStyles}
-                label="RSS Feed"
-                data-tab="rss"
-                {...a11yProps(1)}
-              />
-            )}
-            <Tab
-              classes={tabItemStyles}
-              label="Short Bio"
-              data-tab="bio"
-              {...a11yProps(2)}
-            />
+            {people.twitterHandle !== null &&
+              tab("Twitter Timeline", "twitter", 0)}
+            {people.rssFeedUrl !== null && tab("RSS Feed", "rss", 1)}
+            {tab("Short Bio", "bio", 2)}
           </Tabs>
         </Toolbar>
       </AppBar>
