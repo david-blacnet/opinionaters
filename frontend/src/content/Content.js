@@ -49,24 +49,24 @@ const useTabItemStyles = makeStyles(() => ({
 }));
 
 export default function Content(props) {
-  const [activeTabIndex, setActiveTabIndex] = React.useState(0);
   const styles = useStyles();
-  const tabItemStyles = useTabItemStyles();
-  const { id } = useParams();
-  const ref = useRef(null);
-  React.useEffect(() => {
-    const width = ref.current ? ref.current.offsetWidth : 0;
-    people.renderTweets(twitterTimeline, width);
-  });
-
   const classes = props.classes ? props.classes : styles;
-  const twitterTimeline = "twitter-timeline";
-  const peopleService = PeopleService();
+  const tabItemStyles = useTabItemStyles();
+
+  const [activeTabIndex, setActiveTabIndex] = React.useState(0);
   const handleChangeTab = (event, newActiveTabIndex) => {
     setActiveTabIndex(newActiveTabIndex);
   };
 
+  const twitterTimeline = "twitter-timeline";
+  const { id } = useParams();
+  const ref = useRef(null);
+  const peopleService = PeopleService();
   const people = peopleService.getPeople(id);
+  React.useEffect(() => {
+    const width = ref.current ? ref.current.offsetWidth : 0;
+    people.renderTweets(twitterTimeline, width);
+  });
 
   return (
     <div className={classes.content} ref={ref}>
