@@ -24,9 +24,7 @@ jest.mock("../people/PeopleService", () => {
 });
 
 const twitterTab = '[data-tab="twitter"]';
-const twitterContent = '[data-content="twitter"]';
 const rssTab = '[data-tab="rss"]';
-const rssContent = '[data-content="rss"]';
 
 test("Content should call the People domain to get the latest twitter updates ", () => {
   mockPeople = id => ({
