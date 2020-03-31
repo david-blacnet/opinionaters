@@ -50,7 +50,7 @@ test("Content should only render RSS Feed and Short Bio if the people does not h
     renderTweets: mockRenderTweets
   });
 
-  testContent(twitterTab, twitterContent, rssTab, rssContent);
+  testContent(twitterTab, rssTab);
 });
 
 test("Content should only render Twitter Timeline and Short Bio if the people does not have rss feed url", () => {
@@ -60,16 +60,14 @@ test("Content should only render Twitter Timeline and Short Bio if the people do
     rssFeedUrl: null,
     renderTweets: mockRenderTweets
   });
-  testContent(rssTab, rssContent, twitterTab, twitterContent);
+  testContent(rssTab, twitterTab);
 });
 
-function testContent(tabA, contentA, tabB, contentB) {
+function testContent(tabA, tabB) {
   mockGetPeople.mockImplementationOnce(mockPeople);
   const container = shallow(<Content />);
-  expect(container.find(Tab).length).toEqual(2);
-  expect(container.find(TabPanel).length).toEqual(2);
-  expect(container.exists(tabA)).toBeFalsy();
-  expect(container.exists(contentA)).toBeFalsy();
-  expect(container.exists(tabB)).toBeTruthy();
-  expect(container.exists(contentB)).toBeTruthy();
+  expect(container.find(Tab).length).toEqual(3);
+  expect(container.find(TabPanel).length).toEqual(3);
+  expect(container.find(tabA).props().disabled).toBeTruthy();
+  expect(container.find(tabB).props().disabled).toBeFalsy();
 }

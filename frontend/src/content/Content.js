@@ -68,14 +68,23 @@ export default function Content(props) {
     people.renderTweets(twitterTimeline, width);
   });
 
-  const tab = (label, dataTab, index) => {
+  const tab = (label, dataTab, index, isDisabled) => {
     return (
       <Tab
+        disabled={isDisabled}
         classes={tabItemStyles}
         label={label}
         data-tab={dataTab}
         {...a11yProps(index)}
       />
+    );
+  };
+
+  const tabPanel = (index, dataContent, children) => {
+    return (
+      <TabPanel value={activeTab} index={index} data-content={dataContent}>
+        {children}
+      </TabPanel>
     );
   };
 
@@ -88,28 +97,22 @@ export default function Content(props) {
             onChange={handleChangeTab}
             className={classes.toolBar}
           >
-            {people.twitterHandle !== null &&
-              tab("Twitter Timeline", "twitter", 0)}
-            {people.rssFeedUrl !== null && tab("RSS Feed", "rss", 1)}
-            {tab("Short Bio", "bio", 2)}
+            {tab(
+              "Twitter Timeline",
+              "twitter",
+              0,
+              people.twitterHandle === null
+            )}
+            {tab("RSS Feed", "rss", 1, people.rssFeedUrl === null)}
+            {tab("Short Bio", "bio", 1, false)}
           </Tabs>
         </Toolbar>
       </AppBar>
       <main className={classes.content}>
         <div className={classes.toolBar} />
-        {people.twitterHandle !== null && (
-          <TabPanel value={activeTab} index={0} data-content="twitter">
-            <span className={twitterTimeline} />
-          </TabPanel>
-        )}
-        {people.rssFeedUrl !== null && (
-          <TabPanel value={activeTab} index={1} data-content="rss">
-            Item Two {id}
-          </TabPanel>
-        )}
-        <TabPanel value={activeTab} index={2} data-content="bio">
-          Item Three {id}
-        </TabPanel>
+        {tabPanel(0, "twitter", <span className={twitterTimeline} />)}
+        {tabPanel(1, "rss", `Item Two ${id}`)}
+        {tabPanel(2, "bio", `Item Three ${id}`)}
       </main>
     </div>
   );
