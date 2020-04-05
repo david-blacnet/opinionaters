@@ -36,7 +36,7 @@ export default function PeopleService() {
       "baeldung",
       "Eugen Baeldung",
       "@baeldung",
-      "https://www.baeldung.com/feed",
+      "http://feeds.feedburner.com/Baeldung",
       "https://www.baeldung.com/"
     ),
     People(

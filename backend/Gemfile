@@ -6,7 +6,9 @@ source "https://rubygems.org"
 
 git_source(:github) {|repo_name| "https://github.com/#{repo_name}" }
 
+gem 'nokogiri'
 gem 'rack'
+gem 'rss'
 gem 'sinatra', '~>2.0.8.1'
 gem 'sinatra-contrib', '~>2.0.8.1'
 gem 'thin', '~>1.7.2'
