@@ -13,6 +13,7 @@ RSpec.describe 'The HelloWorld App' do
   before(:each) do
     allow(FeedParser).to receive(:parse_feed).and_call_original
     allow(FeedParser).to receive(:fill_entry).and_call_original
+    allow(FeedParser).to receive(:fill_feed).and_call_original
     allow(FeedParser).to receive(:read).with('https://blog.cleancoder.com/atom.xml').and_return('<?xml version="1.0" encoding="utf-8"?>'\
 '<feed xmlns="http://www.w3.org/2005/Atom"><title><![CDATA[The Clean Code Blog]]>'\
 '</title><link href="http://blog.cleancoder.com/atom.xml" rel="self"/><link href="http://blog.cleancoder.com/"/>'\

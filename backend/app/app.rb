@@ -23,29 +23,30 @@ module FeedParser
   module_function
 
   def parse_feed(url)
-    feed = RSS::Parser.parse(read(url))
-
-    title = Nokogiri::XML::DocumentFragment.parse(feed.title).xpath('title/text()')
-    updated = Nokogiri::XML::DocumentFragment.parse(feed.updated).xpath('updated/text()')
     entries = []
+    feed = RSS::Parser.parse(read(url))
     feed.items.each { |item| entries.push(fill_entry(item)) }
 
+    fill_feed feed, entries
+  end
+
+  def fill_feed(feed, entries)
     RSSFeed.builder
-           .title(title)
-           .updated(updated)
-           .entries(entries)
-           .build
+        .title(Nokogiri::XML::DocumentFragment.parse(feed.title).xpath('title/text()'))
+        .updated(Nokogiri::XML::DocumentFragment.parse(feed.updated).xpath('updated/text()'))
+        .entries(entries)
+        .build
   end
 
   def fill_entry(item)
     doc = Nokogiri::XML::Document.parse(item.to_s)
 
     RSSEntry.builder
-            .title(doc.xpath('entry/title/text()'))
-            .link(doc.xpath('entry/link/@href'))
-            .updated(doc.xpath('entry/updated/text()'))
-            .content(doc.xpath('entry/content/text()'))
-            .build
+        .title(doc.xpath('entry/title/text()'))
+        .link(doc.xpath('entry/link/@href'))
+        .updated(doc.xpath('entry/updated/text()'))
+        .content(doc.xpath('entry/content/text()'))
+        .build
   end
 
   def read(url)
