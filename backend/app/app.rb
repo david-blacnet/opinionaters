@@ -18,9 +18,9 @@ end
 class FeedParser
 
   def self.parse_feed(url)
-    rss_feed = RSSFeed.new
-
     feed = RSS::Parser.parse(read(url))
+
+    rss_feed = RSSFeed.new
     rss_feed.title = Nokogiri::XML::DocumentFragment.parse(feed.title).xpath('title/text()')
     rss_feed.updated = Nokogiri::XML::DocumentFragment.parse(feed.updated).xpath('updated/text()')
     rss_feed.entries = []
@@ -30,8 +30,9 @@ class FeedParser
   end
 
   def self.fill_entry(item)
-    rss_entry = RSSEntry.new
     doc = Nokogiri::XML::Document.parse(item.to_s)
+
+    rss_entry = RSSEntry.new
     rss_entry.title = doc.xpath('entry/title/text()')
     rss_entry.link = doc.xpath('entry/link/@href')
     rss_entry.updated = doc.xpath('entry/updated/text()')
