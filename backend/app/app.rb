@@ -7,6 +7,9 @@ require 'sinatra/base'
 require 'sinatra/reloader'
 require 'open-uri'
 
+require_relative '../lib/rss/rss_entry'
+require_relative '../lib/rss/rss_feed'
+
 # App
 class App < Sinatra::Base
   get '/' do
@@ -15,68 +18,38 @@ class App < Sinatra::Base
 end
 
 # FeedParser
-class FeedParser
+module FeedParser
 
-  def self.parse_feed(url)
+  module_function
+
+  def parse_feed(url)
     feed = RSS::Parser.parse(read(url))
 
-    rss_feed = RSSFeed.new
-    rss_feed.title = Nokogiri::XML::DocumentFragment.parse(feed.title).xpath('title/text()')
-    rss_feed.updated = Nokogiri::XML::DocumentFragment.parse(feed.updated).xpath('updated/text()')
-    rss_feed.entries = []
-    feed.items.each { |item| rss_feed.entries.push(fill_entry(item)) }
+    title = Nokogiri::XML::DocumentFragment.parse(feed.title).xpath('title/text()')
+    updated = Nokogiri::XML::DocumentFragment.parse(feed.updated).xpath('updated/text()')
+    entries = []
+    feed.items.each { |item| entries.push(fill_entry(item)) }
 
-    rss_feed
+    RSSFeed.builder
+           .title(title)
+           .updated(updated)
+           .entries(entries)
+           .build
   end
 
-  def self.fill_entry(item)
+  def fill_entry(item)
     doc = Nokogiri::XML::Document.parse(item.to_s)
 
-    rss_entry = RSSEntry.new
-    rss_entry.title = doc.xpath('entry/title/text()')
-    rss_entry.link = doc.xpath('entry/link/@href')
-    rss_entry.updated = doc.xpath('entry/updated/text()')
-    rss_entry.content = doc.xpath('entry/content/text()')
-
-    rss_entry
+    RSSEntry.builder
+            .title(doc.xpath('entry/title/text()'))
+            .link(doc.xpath('entry/link/@href'))
+            .updated(doc.xpath('entry/updated/text()'))
+            .content(doc.xpath('entry/content/text()'))
+            .build
   end
 
-  def self.read(url)
+  def read(url)
     URI.open(url).read
-  end
-
-end
-
-# RSSEntry
-class RSSEntry
-  attr_accessor :id
-  attr_accessor :title
-  attr_accessor :content
-  attr_accessor :link
-  attr_accessor :updated
-
-  def to_json(*_args)
-    hash = {}
-    instance_variables.each do |var|
-      hash[var.to_s[1..-1]] = instance_variable_get var
-    end
-    hash.to_json
-  end
-
-end
-
-# RSSFeed
-class RSSFeed
-  attr_accessor :title
-  attr_accessor :updated
-  attr_accessor :entries
-
-  def to_json(*_args)
-    hash = {}
-    instance_variables.each do |var|
-      hash[var.to_s[1..-1]] = instance_variable_get var
-    end
-    hash.to_json
   end
 
 end
