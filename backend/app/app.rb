@@ -10,27 +10,40 @@ require 'open-uri'
 # App
 class App < Sinatra::Base
   get '/' do
-    rss_feed_url = params['rss-feed-url']
+    FeedParser.parse_feed(params['rss-feed-url']).to_json
+  end
+end
 
+# FeedParser
+class FeedParser
+
+  def self.parse_feed(url)
     rss_feed = RSSFeed.new
 
-    URI.open(rss_feed_url) do |rss|
-      feed = RSS::Parser.parse(rss)
-      rss_feed.entries = []
-      feed.items.each do |item|
-        rss_entry = RSSEntry.new
-        doc = Nokogiri::XML::Document.parse(item.to_s)
-        rss_entry.title = doc.xpath('entry/title/text()')
-        rss_entry.link = doc.xpath('entry/link/@href')
-        rss_entry.updated = doc.xpath('entry/updated/text()')
-        rss_entry.content = doc.xpath('entry/content/text()')
-        rss_feed.entries.push(rss_entry)
-      end
-      rss_feed.title = Nokogiri::XML::DocumentFragment.parse(feed.title).xpath('title/text()')
-      rss_feed.updated = Nokogiri::XML::DocumentFragment.parse(feed.updated).xpath('updated/text()')
-    end
-    rss_feed.to_json
+    feed = RSS::Parser.parse(read(url))
+    rss_feed.title = Nokogiri::XML::DocumentFragment.parse(feed.title).xpath('title/text()')
+    rss_feed.updated = Nokogiri::XML::DocumentFragment.parse(feed.updated).xpath('updated/text()')
+    rss_feed.entries = []
+    feed.items.each { |item| rss_feed.entries.push(fill_entry(item)) }
+
+    rss_feed
   end
+
+  def self.fill_entry(item)
+    rss_entry = RSSEntry.new
+    doc = Nokogiri::XML::Document.parse(item.to_s)
+    rss_entry.title = doc.xpath('entry/title/text()')
+    rss_entry.link = doc.xpath('entry/link/@href')
+    rss_entry.updated = doc.xpath('entry/updated/text()')
+    rss_entry.content = doc.xpath('entry/content/text()')
+
+    rss_entry
+  end
+
+  def self.read(url)
+    URI.open(url).read
+  end
+
 end
 
 # RSSEntry
