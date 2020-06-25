@@ -14,7 +14,7 @@ GEM
     nokogiri (1.10.9)
       mini_portile2 (~> 2.4.0)
     numerizer (0.1.1)
-    rack (2.1.0)
+    rack (2.1.4)
     rack-protection (2.0.8.1)
       rack
     rack-test (1.1.0)
@@ -62,7 +62,6 @@ DEPENDENCIES
   rack
   rack-test
   rspec
-  rspec-mocks
   rss
   sinatra (~> 2.0.8.1)
   sinatra-contrib (~> 2.0.8.1)
